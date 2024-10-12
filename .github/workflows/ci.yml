@@ -51,11 +51,15 @@ jobs:
           bundler-cache: true
 
       - name: Lint code for consistent style
-        run: |
-              git fetch --prune --unshallow
-              MODIFIED_FILES=$(git diff --name-only origin/main | grep '.rb$')
-              if [ -n "$MODIFIED_FILES" ]; then
-                bin/rubocop $MODIFIED_FILES
-              else
-                echo "No Ruby files modified, skipping RuboCop"
-              fi
+        run:  |
+          if git rev-parse --is-shallow-repository; then
+            git fetch --prune --unshallow
+          else
+            git fetch --prune
+          fi
+          MODIFIED_FILES=$(git diff --name-only origin/main | grep '.rb$')
+          if [ -n "$MODIFIED_FILES" ]; then
+            bin/rubocop $MODIFIED_FILES
+          else
+            echo "No Ruby files modified, skipping RuboCop"
+          fi
