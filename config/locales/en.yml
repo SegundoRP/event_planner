@@ -29,3 +29,40 @@
 
 en:
   hello: "Hello world"
+  events:
+    title: Events
+    edit: Edit event
+    back: Back to events
+    create:
+      success: Event was successfully created
+      failure: Event could not be created
+    update:
+      success: Event was successfully updated
+      failure: Event could not be updated
+    destroy:
+      success: Event was successfully removed
+    pagination:
+      total_events: "Total:"
+    event:
+      check: Check event
+      duration: Duration %{minutes} min
+      organizer: 'Organizer:'
+      category: 'Category:'
+      day: 'Day:'
+      time: 'Time:'
+      location: 'Location:'
+    index:
+      new_event: "Create event"
+    new:
+      title: "Create new event"
+    form:
+      prompt: Pick participants
+      participants: Participants
+  activerecord:
+    models:
+      event: Event
+    attributes:
+      event:
+        overlapping_events: There is already an event scheduled at this time for one or more participants
+        greater_than_end_time: Start time must be before end time
+        minor_than_start_time: End time must be after start time

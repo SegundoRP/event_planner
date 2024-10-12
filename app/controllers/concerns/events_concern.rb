@@ -5,6 +5,13 @@ module EventsConcern
     Event.ordered_events.where(sql_query, query: "%#{query}%").paginate(page:, per_page: 6)
   end
 
+  def build_participants(params)
+    user_params = params[:participating_users][:user_id].reject(&:blank?)
+    return unless user_params.present?
+
+    user_params.each { |user_id| @event.participating_users.build(user_id:) }
+  end
+
   private
 
   def sql_query

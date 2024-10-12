@@ -1,4 +1,8 @@
 <section class="container">
+  <div class="d-flex justify-content-end">
+    <%= link_to t('.new_event'), new_event_path, class: "btn btn-gradient mt-3" %>
+  </div>
+
   <% if current_user.admin? %>
     <div class="mx-5 my-5">
       <%= form_with method: :get, url: "/", class: "form-search d-flex justify-content-center" do |f| %>
