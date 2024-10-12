@@ -29,4 +29,39 @@ RSpec.describe EventsController do
       end
     end
   end
+
+  describe 'POST #create' do
+    let(:user) { create(:user) }
+
+    context 'when the event is successfully created' do
+      before do
+        sign_in user
+        post :create,
+             params: { event: attributes_for(:event, organizer: user, participating_users: { user_id: [user.id] }) }
+      end
+
+      it 'redirects to the events path' do
+        expect(response).to redirect_to(events_path)
+      end
+
+      it 'returns a notice' do
+        expect(flash[:notice]).to eq('Event was successfully created')
+      end
+    end
+
+    context 'when the event is not successfully created' do
+      before do
+        sign_in user
+        post :create, params: { event: attributes_for(:event, title: nil, participating_users: { user_id: [user.id] }) }
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+
+      it 'returns an unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
