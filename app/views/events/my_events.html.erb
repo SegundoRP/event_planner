@@ -1,0 +1,33 @@
+<section class="container">
+  <div class="cards mt-4">
+    <% @events.each do |event| %>
+      <div class="card-event">
+        <div class="card-event-infos">
+          <div>
+            <h3><%= event.title.humanize %></h3>
+            <p>Organizer: <%= event.organizer.first_name %></p>
+            <p><%= event.description %></p>
+            <p>Category: <%= event.category %></p>
+            <p>Day: <%= event.start_time.strftime("%A, %d %B %Y") %></p>
+            <p>Time: <%= event.start_time.strftime("%I:%M %P") %></p>
+            <p>Location: <%= event.location %></p>
+          </div>
+          <h3 class="card-event-duration">Duration: <%= event_duration(event) %></h3>
+          <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-event-user avatar-bordered" />
+        </div>
+
+        <div class="d-flex justify-content-end mb-3 me-3">
+           <%= link_to "Check event", "#", class: "btn btn-flat" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">Total: <%= @events.size %></div>
+
+  <div class="d-flex justify-content-end mt-4">
+    <span class="digg_pagination">
+      <%= will_paginate @events, container: false %>
+    </span>
+  </div>
+</section>

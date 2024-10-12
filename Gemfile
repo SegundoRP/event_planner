@@ -40,6 +40,7 @@ gem "devise"
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
+gem 'will_paginate'
 
 group :development, :test do
   gem "dotenv-rails"
@@ -56,6 +57,7 @@ group :development, :test do
   gem 'faker'
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'rails-controller-testing'
 end
 
 group :development do

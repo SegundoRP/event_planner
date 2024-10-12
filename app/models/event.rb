@@ -21,4 +21,16 @@ class Event < ApplicationRecord
   has_many :participants, through: :participating_users, source: :user
 
   validates :start_time, :end_time, :title, presence: true
+
+  scope :ordered_events, lambda {
+    joins(:organizer, :participants)
+      .includes(:organizer, :participants)
+      .order(:start_time).distinct
+  }
+
+  scope :my_ordered_events, lambda { |user|
+    joins(:organizer)
+      .includes(:organizer)
+      .where(user_id: user.id)
+  }
 end
