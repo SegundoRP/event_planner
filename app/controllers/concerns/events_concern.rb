@@ -2,7 +2,7 @@ module EventsConcern
   extend ActiveSupport::Concern
 
   def events_filtered(query, page)
-    Event.ordered_events.where(sql_query, query: "%#{query}%").paginate(page:, per_page: 9)
+    Event.ordered_events.where(sql_query, query: "%#{query}%").paginate(page:, per_page: 6)
   end
 
   private

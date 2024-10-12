@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include EventsConcern
   def index
     if params[:query].blank?
-      @events = Event.ordered_events.paginate(page: params[:page], per_page: 9)
+      @events = Event.ordered_events.paginate(page: params[:page], per_page: 6)
     else
       @events = events_filtered(params[:query], params[:page])
     end
@@ -11,6 +11,6 @@ class EventsController < ApplicationController
   end
 
   def my_events
-    @events = Event.my_ordered_events(current_user).paginate(page: params[:page], per_page: 3)
+    @events = Event.my_ordered_events(current_user).paginate(page: params[:page], per_page: 6)
   end
 end
