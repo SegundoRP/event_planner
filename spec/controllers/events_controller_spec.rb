@@ -34,6 +34,10 @@ RSpec.describe EventsController do
     let(:user) { create(:user) }
     let(:mail) { EventMailer }
 
+    around do |example|
+      perform_enqueued_jobs { example.run }
+    end
+
     context 'when the event is successfully created' do
       before do
         sign_in user

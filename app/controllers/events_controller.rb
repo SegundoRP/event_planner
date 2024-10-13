@@ -24,7 +24,7 @@ class EventsController < ApplicationController
     build_participants(params[:event])
 
     if @event.save
-      EventMailer.notify_new_event(@event).deliver_now
+      EventMailer.notify_new_event(@event).deliver_later
       redirect_to events_path, notice: t('.success')
     else
       render :new, status: :unprocessable_entity, alert: flash[:alert] = t(".failure")

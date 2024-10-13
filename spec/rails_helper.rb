@@ -52,14 +52,10 @@ RSpec.configure do |config|
 
   config.include ActiveJob::TestHelper
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveJob::TestHelper
+
   config.before(:suite) do
     FactoryBot.find_definitions
-  end
-
-  RSpec.configure do |config|
-    config.before(:each) do
-      ActiveJob::Base.queue_adapter = :test
-    end
   end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -91,4 +87,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  config.before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+  end
 end
