@@ -32,6 +32,7 @@ RSpec.describe EventsController do
 
   describe 'POST #create' do
     let(:user) { create(:user) }
+    let(:mail) { EventMailer }
 
     context 'when the event is successfully created' do
       before do
@@ -47,6 +48,12 @@ RSpec.describe EventsController do
       it 'returns a notice' do
         expect(flash[:notice]).to eq('Event was successfully created')
       end
+
+      it 'sends a notification email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.last.to).to include(user.email)
+        expect(ActionMailer::Base.deliveries.last.subject).to eq('New event created')
+      end
     end
 
     context 'when the event is not successfully created' do
@@ -61,6 +68,10 @@ RSpec.describe EventsController do
 
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
   end

@@ -56,6 +56,12 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 
+  RSpec.configure do |config|
+    config.before(:each) do
+      ActiveJob::Base.queue_adapter = :test
+    end
+  end
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
