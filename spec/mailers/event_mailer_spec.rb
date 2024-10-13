@@ -4,6 +4,7 @@ RSpec.describe EventMailer do
   describe '#notify_new_event' do
     let(:user) { create(:user) }
     let(:event) { create(:event, organizer: user) }
+    let!(:participant) { create(:participant, user:, event:) }
     let(:mail) { EventMailer.notify_new_event(event) }
 
     it 'renders the headers' do

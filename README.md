@@ -62,7 +62,7 @@ This is an event scheduling application built with **Ruby on Rails 7**. It allow
 4. **Set Up API Keys and passwords**:
     For weather data, set up your `OpenWeatherMap` API key in your environment variables:
     ```bash
-    OPENWEATHER_API_KEY
+    OPEN_WEATHER_API_KEY
     ```
 
     For sending emails, set up your `Mailgun` info in your environment variables:
@@ -86,7 +86,7 @@ This is an event scheduling application built with **Ruby on Rails 7**. It allow
 ## Usage
 
 ### Creating Events
-Users can create events through the web interface. Events must include a title, description, category, start and end time, and location (optional, if weather info is required).
+Users can create, edit and destroy events through the web interface. Events must include a title, description, category, start and end time, and location (optional, if weather info is required).
 
 ### Event Participation
 - The organizer can invite participants when creating the event.
