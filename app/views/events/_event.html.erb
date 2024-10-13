@@ -22,6 +22,13 @@
         <p><%= t('.humidity', humidity: event.weather_data['humidity']) %></p>
         <p><%= t('.wind_speed', speed: event.weather_data['wind_speed']) %></p>
       <% end %>
+
+      <% if event.participants.present? && action_name == 'show' %>
+        <% event.participants.each do |participant| %>
+          <p><%= t('.participants') %></p>
+          <p><%= full_name(participant) %></p>
+        <% end %>
+      <% end %>
     </div>
     <h3 class="card-event-duration"><%= t('.duration', minutes: event_duration(event)) %></h3>
     <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-event-user avatar-bordered" />

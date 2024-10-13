@@ -14,4 +14,9 @@
   <div class="container d-flex justify-content-center mt-5">
     <%= render @event %>
   </div>
+
+  <div class="container d-flex justify-content-center mt-5">
+    <%= link_to t('.destroy'), event_path(@event), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-flat me-2 text-center", style: 'width: 110px' %>
+    <%= link_to t('.edit'), edit_event_path(@event), class: "btn btn-flat d-block text-center", style: 'width: 110px' %>
+  </div>
 </section>
