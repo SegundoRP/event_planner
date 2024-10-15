@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-center w-100">
+  <%= simple_form_for @event, html: { class: 'w-50 mt-3' }, defaults: { input_html: { class: 'bg-white' } } do |f| %>
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :category %>
+    <%= f.input :start_time, as: :string,  input_html: {
+                data: {
+                  controller: "datepicker",
+                  datepicker_today_value: Date.current
+                }
+              } %>
+    <%= f.input :end_time, as: :string,  input_html: {
+                data: {
+                  controller: "datepicker",
+                  datepicker_today_value: Date.current
+                }
+              } %>
+    <%= f.input :location %>
+
+    <%= f.simple_fields_for :participating_users do |participant_form| %>
+      <div class="participant-fields">
+        <%= participant_form.input :user_id, collection: User.where.not(id: current_user.id).map { |u| [user_fullname(u), u.id] },
+                                    prompt: t('.prompt'), label: t('.participants'),
+                                    input_html: { multiple: true,
+                                                  data: { controller: "tom-select", tom_select_options_value: { tags: true } } } %>
+      </div>
+    <% end %>
+
+    <div class="w-50 mx-auto text-center">
+      <%= f.submit class: "btn btn-flat mt-3 mx-auto w-50" %>
+    </div>
+  <% end %>
+</div>

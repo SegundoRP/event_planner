@@ -18,13 +18,15 @@ class Event < ApplicationRecord
   belongs_to :organizer, class_name: 'User', foreign_key: 'user_id'
 
   has_many :participating_users, class_name: 'Participant', dependent: :destroy_async
-  has_many :participants, through: :participating_users, source: :user
+  has_many :participants, through: :participating_users, class_name: 'User', source: :user
 
   validates :start_time, :end_time, :title, presence: true
+  validate :check_for_overlapping_events
+  validate :start_time_minors_than_end_time
+  validate :end_time_greater_than_start_time
 
   scope :ordered_events, lambda {
-    joins(:organizer, :participants)
-      .includes(:organizer, :participants)
+    includes(:organizer, :participants)
       .order(:start_time).distinct
   }
 
@@ -33,4 +35,30 @@ class Event < ApplicationRecord
       .includes(:organizer)
       .where(user_id: user.id)
   }
+
+  def check_for_overlapping_events
+    return unless Event.overlapping_events?(user_id, start_time, end_time)
+
+    errors.add(:start_time, I18n.t('activerecord.attributes.event.overlapping_events'))
+  end
+
+  def self.overlapping_events?(user_id, start_time, end_time)
+    joins(:participating_users)
+      .where(participating_users: { user_id: })
+      .where("start_time < ? AND end_time > ?", end_time, start_time).exists?
+  end
+
+  def start_time_minors_than_end_time
+    return if start_time.blank? || end_time.blank?
+    return unless start_time.presence > end_time.presence
+
+    errors.add(:start_time, I18n.t('activerecord.attributes.event.greater_than_end_time'))
+  end
+
+  def end_time_greater_than_start_time
+    return if start_time.blank? || end_time.blank?
+    return unless end_time < start_time
+
+    errors.add(:end_time, I18n.t('activerecord.attributes.event.minor_than_start_time'))
+  end
 end
