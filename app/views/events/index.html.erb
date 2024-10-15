@@ -1,0 +1,21 @@
+<section class="container">
+  <% if current_user.admin? %>
+    <div class="mx-5 my-5">
+      <%= form_with method: :get, url: "/", class: "form-search d-flex justify-content-center" do |f| %>
+          <%= f.text_field :query, placeholder: "Type worker, event or email", label: false, html: { required: true } %>
+          <%= button_tag(type: 'submit', class: "ml-1 btn btn-light", name: nil) do %>
+            <i class="fas fa-search"></i>
+          <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="cards mt-4">
+    <% @events.each do |event| %>
+      <%= render event %>
+    <% end %>
+
+  </div>
+
+  <%= render 'events/pagination', events: @events %>
+</section>

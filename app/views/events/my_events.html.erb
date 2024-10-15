@@ -1,0 +1,9 @@
+<section class="container">
+  <div class="cards mt-4">
+    <% @events.each do |event| %>
+      <%= render event %>
+    <% end %>
+  </div>
+
+  <%= render 'events/pagination', events: @events %>
+</section>
