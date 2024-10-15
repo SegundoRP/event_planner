@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include EventsConcern
+  before_action :event, only: %i[show destroy edit update]
   def index
     if params[:query].blank?
       @events = Event.ordered_events.paginate(page: params[:page], per_page: 6)
@@ -31,11 +32,29 @@ class EventsController < ApplicationController
     end
   end
 
-  def show
-    @event = Event.find(params[:id])
+  def show; end
+
+  def edit; end
+
+  def update
+    build_participants(params[:event])
+    if @event.update(event_params)
+      redirect_to events_path, notice: t('.success')
+    else
+      render :edit, status: :unprocessable_entity, alert: flash[:alert] = t(".failure")
+    end
+  end
+
+  def destroy
+    @event.destroy
+    redirect_to events_path, status: :see_other, notice: t('.success')
   end
 
   private
+
+  def event
+    @event ||= Event.find(params[:id])
+  end
 
   def event_params
     params.require(:event).permit(:title, :description, :category, :start_time, :end_time,

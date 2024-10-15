@@ -9,6 +9,7 @@ module EventsConcern
     user_params = params[:participating_users][:user_id].reject(&:blank?)
     return unless user_params.present?
 
+    @event.participating_users&.attendant&.destroy_all
     user_params.each { |user_id| @event.participating_users.build(user_id:) }
   end
 

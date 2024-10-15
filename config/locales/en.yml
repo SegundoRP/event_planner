@@ -31,7 +31,6 @@ en:
   hello: "Hello world"
   events:
     title: Events
-    edit: Edit event
     back: Back to events
     create:
       success: Event was successfully created
@@ -58,8 +57,11 @@ en:
       temp_max: 'Max temperature: %{temperature}°F'
       humidity: 'Humidity: %{humidity} %'
       wind_speed: 'Wind speed: %{speed} m/s'
+      participants: 'Participants:'
     show:
       title: The weather for the day of the event is
+      destroy: Remove
+      edit: Edit
     index:
       new_event: "Create event"
     new:
@@ -67,6 +69,8 @@ en:
     form:
       prompt: Pick participants
       participants: Participants
+    edit:
+      title: "Edit event"
   mailer:
     event_mailer:
       new_event_created: New event created

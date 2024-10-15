@@ -52,7 +52,6 @@ RSpec.configure do |config|
 
   config.include ActiveJob::TestHelper
   config.include FactoryBot::Syntax::Methods
-  config.include ActiveJob::TestHelper
 
   config.before(:suite) do
     FactoryBot.find_definitions
@@ -88,7 +87,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
 
-  config.before(:each) do
+  config.before(:suite) do
     ActiveJob::Base.queue_adapter = :test
   end
 end

@@ -32,15 +32,15 @@ RSpec.describe EventsController do
 
   describe 'POST #create' do
     let(:user) { create(:user) }
-    let(:mail) { EventMailer }
 
-    around do |example|
-      perform_enqueued_jobs { example.run }
+    before do
+      allow(EventMailer).to receive(:notify_new_event).and_call_original
     end
 
     context 'when the event is successfully created' do
       before do
         sign_in user
+        perform_enqueued_jobs
         post :create,
              params: { event: attributes_for(:event, organizer: user, participating_users: { user_id: [user.id] }) }
       end
@@ -54,9 +54,9 @@ RSpec.describe EventsController do
       end
 
       it 'sends a notification email' do
-        expect(ActionMailer::Base.deliveries.count).to eq(1)
-        expect(ActionMailer::Base.deliveries.last.to).to include(user.email)
-        expect(ActionMailer::Base.deliveries.last.subject).to eq('New event created')
+        expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.first['job_class']).to eq("ActionMailer::MailDeliveryJob")
+        expect(enqueued_jobs.first['arguments']).to include('EventMailer')
       end
     end
 
@@ -76,6 +76,69 @@ RSpec.describe EventsController do
 
       it 'does not send an email' do
         expect(ActionMailer::Base.deliveries.count).to eq(0)
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:user) { create(:user) }
+    let(:event) { create(:event, organizer: user) }
+
+    before do
+      sign_in user
+      delete :destroy, params: { id: event.id }
+    end
+
+    it 'redirects to the events path' do
+      expect(response).to redirect_to(events_path)
+    end
+
+    it 'returns a notice' do
+      expect(flash[:notice]).to eq('Event was successfully removed')
+    end
+  end
+
+  describe 'PATCH #update' do
+    let(:user) { create(:user) }
+    let(:event) { create(:event, organizer: user) }
+    let(:participant) { create(:participant, user:, event:) }
+
+    before do
+      sign_in user
+    end
+
+    context 'when the event is successfully updated' do
+      before do
+        patch :update,
+              params: { id: event.id, event: { title: 'New title', participating_users: { user_id: [user.id] } } }
+      end
+
+      it 'redirects to the events path' do
+        expect(response).to redirect_to(events_path)
+      end
+
+      it 'returns a notice' do
+        expect(flash[:notice]).to eq('Event was successfully updated')
+      end
+
+      it 'updates the event' do
+        event.reload
+        expect(event.title).to eq('New title')
+      end
+    end
+
+    context 'when the event is not successfully updated' do
+      before do
+        patch :update,
+              params: { id: event.id, event: { title: nil, participating_users: { user_id: [user.id] } } }
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+
+      it 'returns an unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
