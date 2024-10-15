@@ -51,6 +51,15 @@ en:
       day: 'Day:'
       time: 'Time:'
       location: 'Location:'
+      weather_main: 'Weather:'
+      weather_description: 'Weather description:'
+      temperature: 'Temperature: %{temperature}°F'
+      temp_min: 'Min temperature: %{temperature}°F'
+      temp_max: 'Max temperature: %{temperature}°F'
+      humidity: 'Humidity: %{humidity} %'
+      wind_speed: 'Wind speed: %{speed} m/s'
+    show:
+      title: The weather for the day of the event is
     index:
       new_event: "Create event"
     new:

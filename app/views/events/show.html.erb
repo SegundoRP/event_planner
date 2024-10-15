@@ -1,0 +1,17 @@
+<section>
+  <h3 class="container d-flex flex-column justify-content-center align-items-center mt-5">
+    <%= t('.title') %>
+  </h3>
+
+  <% if @event.weather_data.present? %>
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+      <div>
+        <img src="http://openweathermap.org/img/wn/<%= @event.weather_data['weather_icon'] %>@2x.png" alt="Cielo claro de noche">
+      </div>
+    </div>
+  <% end %>
+
+  <div class="container d-flex justify-content-center mt-5">
+    <%= render @event %>
+  </div>
+</section>

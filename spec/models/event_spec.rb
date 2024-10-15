@@ -72,5 +72,36 @@ RSpec.describe Event do
         end
       end
     end
+
+    describe '#fetch_weather_data' do
+      let(:user) { create(:user) }
+      let(:event) { create(:event, organizer: user) }
+
+      context 'when the location is present' do
+        context 'when location is valid' do
+          it 'fetches the weather data' do
+            event.location = 'Berlin'
+            event.save
+            expect(event.weather_data).not_to be_nil
+          end
+        end
+
+        context 'when location is invalid' do
+          it 'does not fetch the weather data' do
+            event.location = 'Invalid location'
+            event.save
+            expect(event.weather_data).to be_nil
+          end
+        end
+      end
+
+      context 'when the location is not present' do
+        it 'does not fetch the weather data' do
+          event.location = nil
+          event.save
+          expect(event.weather_data).to be_nil
+        end
+      end
+    end
   end
 end
