@@ -16,4 +16,10 @@ Rails.application.routes.draw do
 
   resources :events, only: %i[index new create show]
   get :my_events, to: "events#my_events"
+
+  namespace :api do
+    namespace :v1 do
+      resources :events, only: %i[index show]
+    end
+  end
 end
