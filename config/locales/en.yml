@@ -67,6 +67,9 @@ en:
     form:
       prompt: Pick participants
       participants: Participants
+  mailer:
+    event_mailer:
+      new_event_created: New event created
   activerecord:
     models:
       event: Event

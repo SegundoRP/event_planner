@@ -1,0 +1,27 @@
+<div>
+  <div>
+    <h3><%= @event.title.humanize %></h3>
+    <p><%= t('events.event.organizer') %> <%= @event.organizer.first_name %></p>
+    <p><%= @event.description %></p>
+    <% if @event.category.present? %>
+      <p><%= t('events.event.category') %> <%= @event.category %></p>
+    <% end %>
+    <p><%= t('events.event.day') %> <%= @event.start_time.strftime("%A, %d %B %Y") %></p>
+    <p><%= t('events.event.time') %> <%= @event.start_time.strftime("%I:%M %P") %></p>
+    <% if @event.location.present? %>
+      <p><%= t('events.event.location') %> <%= @event.location %></p>
+    <% end %>
+
+    <% if @event.weather_data.present? %>
+      <h4><%= t('events.show.title') %>:</h4>
+
+      <p><%= t('events.event.weather_main') %> <%= @event.weather_data['weather_main'] %></p>
+      <p><%= t('events.event.weather_description') %> <%= @event.weather_data['weather_description'] %></p>
+      <p><%= t('events.event.temperature', temperature: @event.weather_data['temperature']) %></p>
+      <p><%= t('events.event.temp_min', temperature: @event.weather_data['temp_min']) %></p>
+      <p><%= t('events.event.temp_max', temperature: @event.weather_data['temp_max']) %></p>
+      <p><%= t('events.event.humidity', humidity: @event.weather_data['humidity']) %></p>
+      <p><%= t('events.event.wind_speed', speed: @event.weather_data['wind_speed']) %></p>
+    <% end %>
+  </div>
+</div>
