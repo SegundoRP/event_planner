@@ -10,15 +10,17 @@
 
 
 User.create!(
-  email: 'example1@gmail.com',
-  role: 'organizer',
-  first_name: 'John 1',
-  last_name: 'Doe 1'
+  email: 'other_example1@gmail.com',
+  role: 'admin',
+  first_name: 'John',
+  last_name: 'Doe',
+  password: '123456'
 )
 
 User.create!(
-  email: 'example2@gmail.com',
+  email: 'other_example2@gmail.com',
   role: 'employee',
-  first_name: 'John 2',
-  last_name: 'Doe 2'
+  first_name: 'Other',
+  last_name: 'Doe',
+  password: '123456'
 )

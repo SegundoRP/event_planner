@@ -29,7 +29,8 @@ class Event < ApplicationRecord
   after_validation :fetch_weather_data, if: :will_save_change_to_location?
 
   scope :ordered_events, lambda {
-    includes(:organizer, :participants)
+    left_joins(:organizer, :participating_users)
+      .includes(:organizer, :participants)
       .order(:start_time).distinct
   }
 
